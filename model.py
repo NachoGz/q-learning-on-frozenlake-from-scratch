@@ -59,9 +59,8 @@ def decay_epsilon(epsilon, decay_rate, min_epsilon):
 
 # Step 8 - td_target
 def td_target(reward, gamma, q_table, next_state, done):
-    # TODO: compute r + gamma * max_a Q(next_state, a), zeroing the bootstrap when done.
     if done:
-        return 1.0
+        return reward
     else:
         return reward + gamma * max_q_value(q_table, next_state)
 
@@ -77,8 +76,14 @@ def q_learning_update(q_table, state, action, reward, next_state, done, alpha, g
     q_table[state, action] += alpha * error
     return q_table[state, action]
 
-# Step 11 - interaction_step (not yet solved)
-# TODO: implement
+# Step 11 - interaction_step
+def interaction_step(env, q_table, state, epsilon, alpha, gamma, rng):
+    action = epsilon_greedy_action(q_table, state, epsilon, env.action_space, rng)
+    next_state, reward, terminated, truncated, _ = env.step(action)
+    done = terminated or truncated
+    r = q_learning_update(q_table, state, action, reward, next_state, done, alpha, gamma)
+    print(r)
+    return (int(next_state), float(reward), done)
 
 # Step 12 - run_training_episode (not yet solved)
 # TODO: implement
