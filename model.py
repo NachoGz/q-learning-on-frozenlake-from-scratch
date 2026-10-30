@@ -98,8 +98,24 @@ def run_training_episode(env, q_table, epsilon, alpha, gamma, rng, max_steps=200
 
     return total_reward
 
-# Step 13 - train_q_learning (not yet solved)
-# TODO: implement
+# Step 13 - train_q_learning
+import numpy as np
+
+def train_q_learning(env, num_episodes, alpha=0.8, gamma=0.95, epsilon_start=1.0, epsilon_min=0.01, epsilon_decay=0.99, seed=0, max_steps=200):
+    rng = np.random.default_rng(seed)
+    returns = []
+    q_table = init_q_table(16,4)
+    for episode in range(num_episodes):
+        env.reset(seed=seed)
+        action_space = env.action_space.seed(seed)
+
+        reward = run_training_episode(env, q_table, epsilon_start, alpha, gamma, rng, max_steps)
+        returns.append(reward)
+
+        epsilon = decay_epsilon(epsilon_start, epsilon_decay, epsilon_min)
+        epsilon_start = epsilon
+    
+    return (q_table, returns)
 
 # Step 14 - extract_greedy_policy (not yet solved)
 # TODO: implement
