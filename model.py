@@ -138,6 +138,13 @@ def run_greedy_episode(env, policy, seed=None, max_steps=200):
     
     return False
 
-# Step 16 - evaluate_success_rate (not yet solved)
-# TODO: implement
+# Step 16 - evaluate_success_rate
+def evaluate_success_rate(env, policy, num_episodes, seed=0, max_steps=200):
+    success_episodes = 0
+    for episode in range(num_episodes):
+        ok = run_greedy_episode(env, policy, seed, max_steps)
+        if ok:
+            success_episodes += 1
+    
+    return success_episodes/num_episodes
 
