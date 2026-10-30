@@ -82,7 +82,6 @@ def interaction_step(env, q_table, state, epsilon, alpha, gamma, rng):
     next_state, reward, terminated, truncated, _ = env.step(action)
     done = terminated or truncated
     r = q_learning_update(q_table, state, action, reward, next_state, done, alpha, gamma)
-    print(r)
     return (int(next_state), float(reward), done)
 
 # Step 12 - run_training_episode (not yet solved)
